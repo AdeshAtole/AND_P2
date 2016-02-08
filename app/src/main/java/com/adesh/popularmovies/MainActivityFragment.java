@@ -90,12 +90,14 @@ public class MainActivityFragment extends Fragment {
                 String response = builder.toString();
 //                Log.v("AST", response);
 
+//                Log.v("APP1",response);
+
                 JSONObject object = new JSONObject(response);
                 JSONArray movies = object.getJSONArray("results");
                 for (int i = 0; i < movies.length(); i++) {
                     JSONObject movie = movies.getJSONObject(i);
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    movieList.add(new Movie(movie.getString("original_title"), movie.getString("poster_path"), movie.getString("overview"), movie.getLong("vote_average"), format.parse(movie.getString("release_date"))));
+                    movieList.add(new Movie(movie.getString("id"), movie.getString("original_title"), movie.getString("poster_path"), movie.getString("overview"), movie.getLong("vote_average"), format.parse(movie.getString("release_date"))));
                     Log.v("APP", movieList.get(i).toString());
                 }
 

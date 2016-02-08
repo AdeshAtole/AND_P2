@@ -46,7 +46,7 @@ public class PosterArrayAdapter2 extends BaseAdapter {
 
         }
 //180 276
-        Picasso.with(context).load(MainActivity.BASE_URL_IMAGE + getItem(position).getPosterUrl()).into(v);
+        Picasso.with(context).load(MainActivity.BASE_URL_IMAGE + getItem(position).getPosterUrl()).error(R.drawable.no_pic).into(v);
         return v;
     }
 }

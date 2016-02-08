@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends Activity {
 
-    public static final String API_KEY = "myApiKey", BASE_URL_IMAGE = "http://image.tmdb.org/t/p/w185";
+    public static final String API_KEY = "61dc61440d46f984051b74ca94c9a613", BASE_URL_IMAGE = "http://image.tmdb.org/t/p/w185";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
