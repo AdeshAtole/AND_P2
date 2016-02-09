@@ -5,7 +5,9 @@
     <string name="title_activity_movie_details">MovieDetailsActivity</string>
     <string name="title_user_ratings">User Ratings</string>
     <string name="title_read_reviews">Read Reviews</string>
+    <string name="title_trailers">Trailers</string>
     <string name="preference_sort_by_title">Sort By</string>
     <string name="preference_sort_by_default">popularity.desc</string>
     <string name="preference_sort_by_key">sortBy</string>
+    <string name="title_activity_review">ReviewActivity</string>
 </resources>

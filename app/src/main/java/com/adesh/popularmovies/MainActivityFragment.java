@@ -90,7 +90,7 @@ public class MainActivityFragment extends Fragment {
                 String response = builder.toString();
 //                Log.v("AST", response);
 
-//                Log.v("APP1",response);
+                Log.v("APP1",response);
 
                 JSONObject object = new JSONObject(response);
                 JSONArray movies = object.getJSONArray("results");

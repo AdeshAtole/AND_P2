@@ -1,6 +1,7 @@
 package com.adesh.popularmovies;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +51,10 @@ public class MovieDetailsActivityFragment extends Fragment {
     TextView releaseDateTextView;
     @Bind(R.id.trailerRecyclerView)
     RecyclerView trailerRecyclerView;
+    @Bind(R.id.readReviewButton)
+    Button readReviewsButton;
+    @Bind(R.id.trailersTitleTextView)
+    TextView trailersTitle;
     TrailerAdapter adapter = null;
 
     public MovieDetailsActivityFragment() {
@@ -60,7 +66,8 @@ public class MovieDetailsActivityFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
         ButterKnife.bind(this, view);
-        Movie movie = (Movie) getActivity().getIntent().getSerializableExtra("MOVIE");
+        final Movie movie = (Movie) getActivity().getIntent().getSerializableExtra("MOVIE");
+        getActivity().setTitle("Movie Details");
         titleTextView.setText(movie.getTitle());
         overviewTextView.setText(movie.getPlot());
         ratingsTextView.setText("" + movie.getRating());
@@ -73,11 +80,29 @@ public class MovieDetailsActivityFragment extends Fragment {
 
         adapter = new TrailerAdapter(getActivity());
         trailerRecyclerView.setAdapter(adapter);
-
+//        trailerRecyclerView.seton
+        trailerRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+//                adapter.getItemAt(position);
+                Trailer t = adapter.getItemAt(position);
+                Log.v("APP", t.toString());
+                startActivity(new Intent(Intent.ACTION_VIEW, t.getVideoUri()));
+            }
+        }));
 //        trailerRecyclerView.setAdapter();
         Picasso.with(getActivity()).load(MainActivity.BASE_URL_IMAGE + movie.getPosterUrl()).into(posterImageView);
         TrailerFetcher fetcher = new TrailerFetcher();
         fetcher.execute(movie.getId());
+        readReviewsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), ReviewActivity.class);
+                i.putExtra("MOVIE", movie);
+                startActivity(i);
+//                Toast.makeText(getActivity(), "Clicked...", Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
@@ -94,18 +119,24 @@ public class MovieDetailsActivityFragment extends Fragment {
             try {
                 JSONObject object = new JSONObject(s);
                 JSONArray array = (JSONArray) object.get("results");
-
+                boolean trailerPresent = false;
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject thumbnail = (JSONObject) array.get(i);
                     if (thumbnail.getString("type").equals("Trailer") && thumbnail.getString("site").equals("YouTube")) {
 //                        trailerArrayList.add(new Trailer(thumbnail.getString("key"), thumbnail.getString("name")));
                         adapter.add(new Trailer(thumbnail.getString("key"), thumbnail.getString("name")));
+                        trailerPresent = true;
                         Log.i("JSON", "Added " + thumbnail.toString());
                     }
                 }
 
+                if (!trailerPresent) {
+                    trailersTitle.setVisibility(View.GONE);
+                    trailerRecyclerView.setVisibility(View.GONE);
+                }
+
 //                Toast.makeText(getActivity())
-                Log.v("JSON", array.toString());
+//                Log.v("JSON", array.toString());
 //                Log.v("JSON", String.valueOf(trailerArrayList.size()));
 
 //                TrailerAdapter adapter = new TrailerAdapter(getActivity(), trailerArrayList);

@@ -1,7 +1,6 @@
 package com.adesh.popularmovies;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +20,12 @@ public class TrailerAdapter extends RecyclerView.Adapter {
 
     Context context;
     List<Trailer> trailers;
+    private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+        }
+    };
 //    ArrayList<String> imageUrls;
 
     public TrailerAdapter(Context context, List<Trailer> trailers) {
@@ -38,25 +43,31 @@ public class TrailerAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public Trailer getItemAt(int position) {
+        return trailers.get(position);
+    }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trailer_item_layout, parent, false);
         TrailerViewHolder holder = new TrailerViewHolder(view);
+
         return holder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Picasso.with(context).load(trailers.get(position).getThumbnailUri()).into(((TrailerViewHolder) holder).imageView);
-        Log.v("JSON","BIND HOLDER "+position);
+        Picasso.with(context).load(trailers.get(position).getThumbnailUri()).placeholder(R.drawable.loading_video).error(R.drawable.loading_video).into(((TrailerViewHolder) holder).imageView);
+//        Log.v("JSON", "BIND HOLDER " + position);
     }
 
     @Override
     public int getItemCount() {
-        Log.v("VER","called getKItemCount()");
+//        Log.v("VER", "called getKItemCount()");
         return trailers.size();
     }
+
 
     static class TrailerViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
@@ -66,8 +77,9 @@ public class TrailerAdapter extends RecyclerView.Adapter {
             imageView = (ImageView) itemView.findViewById(R.id.trailerThumbnailImageView);
         }
 
-        public ImageView getImageView() {
-            return imageView;
-        }
+
+//        public ImageView getImageView() {
+//            return imageView;
+//        }
     }
 }

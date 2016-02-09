@@ -13,8 +13,13 @@ public class Trailer {
         this.name = name;
     }
 
-    Uri getThumbnailUri() {
+    public Uri getThumbnailUri() {
         Uri uri = Uri.parse("http://img.youtube.com/vi/" + key + "/mqdefault.jpg");
+        return uri;
+    }
+
+    public Uri getVideoUri() {
+        Uri uri = Uri.parse("https://youtube.com/").buildUpon().appendPath("watch").appendQueryParameter("v", key).build();
         return uri;
     }
 
@@ -24,5 +29,13 @@ public class Trailer {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Trailer{" +
+                "key='" + key + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
