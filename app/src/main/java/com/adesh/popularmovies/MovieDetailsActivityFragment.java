@@ -67,12 +67,14 @@ public class MovieDetailsActivityFragment extends Fragment {
     TextView trailersTitle;
     @Bind(R.id.favoriteButton)
     ToggleButton favoriteButton;
-    @Bind(R.id.favoriteButtonTextView)
-    TextView favoriteButtonTextView;
+    //    @Bind(R.id.favoriteButtonTextView)
+//    TextView favoriteButtonTextView;
     @Bind(R.id.originalScrollView)
     ScrollView originalView;
     @Bind(R.id.noSelectionView)
     RelativeLayout noSelectionView;
+    @Bind(R.id.shareTrailerButton)
+    Button shareTrailer;
 
     TrailerAdapter adapter = null;
 
@@ -150,11 +152,12 @@ public class MovieDetailsActivityFragment extends Fragment {
             } else {
                 readReviewsButton.setVisibility(View.GONE);
                 trailerRecyclerView.setVisibility(View.GONE);
+                shareTrailer.setVisibility(View.GONE);
                 trailersTitle.setVisibility(View.GONE);
                 byte[] posterBlob = movie.getPosterBlob();
                 posterImageView.setImageBitmap(BitmapFactory.decodeByteArray(posterBlob, 0, posterBlob.length));
                 favoriteButton.setVisibility(View.GONE);
-                favoriteButtonTextView.setVisibility(View.GONE);
+//                favoriteButtonTextView.setVisibility(View.GONE);
             }
 
 
@@ -193,6 +196,23 @@ public class MovieDetailsActivityFragment extends Fragment {
                 }
             });
         }
+
+        final Movie finalMovie2 = movie;
+        shareTrailer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    Trailer trailer = adapter.getItemAt(0);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_TEXT, "Hey, watch this " + finalMovie2.getTitle() + " trailer. " + trailer.getVideoUri().toString());
+                    startActivity(Intent.createChooser(i, "Share"));
+                } catch (IndexOutOfBoundsException e) {
+                    Toast.makeText(getActivity(), "No trailer to share", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
         return view;
 
     }
@@ -201,10 +221,10 @@ public class MovieDetailsActivityFragment extends Fragment {
         Cursor cursor = getActivity().getContentResolver().query(MoviesProvider.Movies.withId(Long.parseLong(movie.getId())), null, null, null, null);
         if (cursor.getCount() == 0) {
             favoriteButton.setChecked(false);
-            favoriteButtonTextView.setText("Add to favorites");
+//            favoriteButtonTextView.setText("Add to favorites");
         } else {
             favoriteButton.setChecked(true);
-            favoriteButtonTextView.setText("Unfavorite");
+//            favoriteButtonTextView.setText("Unfavorite");
         }
     }
 

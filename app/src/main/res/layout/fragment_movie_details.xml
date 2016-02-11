@@ -83,15 +83,25 @@
                             android:layout_height="40dp"
                             android:background="@drawable/star"
                             android:checked="false"
+
+                            android:gravity="center"
                             android:text=""
                             android:textOff=""
                             android:textOn="" />
 
-                        <TextView
-                            android:id="@+id/favoriteButtonTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp" />
+                        <!--<TextView-->
+                        <!--android:id="@+id/favoriteButtonTextView"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginStart="4dp" />-->
+
+
+                        <Button
+                            android:id="@+id/shareTrailerButton"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/ic_share_black_24dp" />
+
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
