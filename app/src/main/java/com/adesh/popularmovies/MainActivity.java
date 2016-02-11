@@ -9,11 +9,19 @@ import android.view.MenuItem;
 public class MainActivity extends Activity {
 
     public static final String API_KEY = "61dc61440d46f984051b74ca94c9a613", BASE_URL_IMAGE = "http://image.tmdb.org/t/p/w185";
+    public static boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (findViewById(R.id.movie_details_container) != null) {
+            mTwoPane = true;
+            getFragmentManager().beginTransaction().replace(R.id.movie_details_container, new MovieDetailsActivityFragment()).commit();
+        } else {
+//            Toast.makeText(this, "here", Toast.LENGTH_LONG).show();
+            mTwoPane = false;
+        }
     }
 
 

@@ -12,6 +12,8 @@ public class MovieDetailsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+        if (savedInstanceState == null)
+            getFragmentManager().beginTransaction().replace(R.id.movie_details_container, new MovieDetailsActivityFragment()).commit();
     }
 
 

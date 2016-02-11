@@ -1,6 +1,8 @@
 package com.adesh.popularmovies;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,18 +10,26 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 /**
  * Created by adesh on 11/12/15.
  */
 public class PosterArrayAdapter2 extends BaseAdapter {
-    List<Movie> movies;
+    LinkedHashSet<Movie> movies;
     Context context;
 
-    public PosterArrayAdapter2(List<Movie> movies, Context context) {
+    public PosterArrayAdapter2(LinkedHashSet<Movie> movies, Context context) {
         this.movies = movies;
         this.context = context;
+    }
+
+    public void add(Movie movie) {
+        if (movies == null) {
+            movies = new LinkedHashSet<>();
+        }
+        movies.add(movie);
     }
 
     @Override
@@ -29,7 +39,7 @@ public class PosterArrayAdapter2 extends BaseAdapter {
 
     @Override
     public Movie getItem(int position) {
-        return movies.get(position);
+        return new ArrayList<Movie>(movies).get(position);
     }
 
     @Override
@@ -46,7 +56,15 @@ public class PosterArrayAdapter2 extends BaseAdapter {
 
         }
 //180 276
-        Picasso.with(context).load(MainActivity.BASE_URL_IMAGE + getItem(position).getPosterUrl()).error(R.drawable.no_pic).into(v);
+        if (getItem(position).getPosterUrl() != null) {
+            Picasso.with(context).load(MainActivity.BASE_URL_IMAGE + getItem(position).getPosterUrl()).error(R.drawable.no_pic).into(v);
+        } else {
+            byte[] posterBlob = getItem(position).getPosterBlob();
+            Bitmap poster = BitmapFactory.decodeByteArray(posterBlob, 0, posterBlob.length);
+//            Picasso.with(context).
+//            (ImageView)((Activity)context).findViewById(R.))
+            v.setImageBitmap(poster);
+        }
         return v;
     }
 }

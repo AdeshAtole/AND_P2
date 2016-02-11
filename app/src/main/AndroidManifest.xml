@@ -3,6 +3,7 @@
     package="com.adesh.popularmovies">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -29,6 +30,10 @@
         <activity
             android:name=".ReviewActivity"
             android:label="@string/title_activity_review" />
+
+        <provider
+            android:name="com.adesh.popularmovies.db.generated.MoviesProvider"
+            android:authorities="com.adesh.popularmovies" />
     </application>
 
 </manifest>

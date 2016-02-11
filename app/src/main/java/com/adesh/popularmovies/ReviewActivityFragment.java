@@ -43,6 +43,8 @@ public class ReviewActivityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_review, container, false);
         ButterKnife.bind(this, view);
         Movie movie = (Movie) getActivity().getIntent().getSerializableExtra("MOVIE");
+        if (movie == null)
+            movie = (Movie) getArguments().getSerializable("MOVIE");
         getActivity().setTitle(movie.getTitle());
 //        Toast.makeText(getActivity(),movie.getTitle(),Toast.LENGTH_SHORT).show();
 

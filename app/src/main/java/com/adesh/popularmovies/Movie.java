@@ -9,15 +9,36 @@ import java.util.Date;
 public class Movie implements Serializable {
     private String id, title, posterUrl, plot;
     private float rating;
+    private float popularity;
     private Date releaseDate;
+    private byte[] posterBlob;
 
-    public Movie(String id, String title, String posterUrl, String plot, float rating, Date releaseDate) {
+
+    public Movie(String id, String title, String posterUrl, String plot, float rating, float popularity, Date releaseDate) {
         this.id = id;
         this.title = title;
         this.posterUrl = posterUrl;
         this.plot = plot;
         this.rating = rating;
         this.releaseDate = releaseDate;
+        this.popularity = popularity;
+        posterBlob = null;
+    }
+
+
+    public Movie(String id, String title, byte[] posterBlob, String plot, float rating, float popularity, Date releaseDate) {
+        this.id = id;
+        this.posterBlob = posterBlob;
+        this.title = title;
+        this.plot = plot;
+        this.rating = rating;
+        this.popularity = popularity;
+        this.releaseDate = releaseDate;
+        posterUrl = null;
+    }
+
+    public byte[] getPosterBlob() {
+        return posterBlob;
     }
 
     public String getTitle() {
@@ -44,6 +65,25 @@ public class Movie implements Serializable {
         return id;
     }
 
+    public float getPopularity() {
+        return popularity;
+    }
+
+//    public ContentValues toContentValues(Context context) throws IOException {
+//        SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy");
+//
+//        ContentValues values = new ContentValues();
+//        values.put(MovieColumns._ID, this.id);
+//        values.put(MovieColumns.RELEASE_DATE, format.format(this.releaseDate));
+//        values.put(MovieColumns.RATING, this.rating);
+//        ByteArrayOutputStream os = new ByteArrayOutputStream();
+//        Picasso.with(context).load(getPosterUrl()).get().compress(Bitmap.CompressFormat.PNG, 0, os);
+//        values.put(MovieColumns.POSTER, os.toByteArray());
+//        values.put(MovieColumns.TITLE, this.title);
+//
+//        return values;
+//    }
+
     @Override
     public String toString() {
         return "Movie{" +
@@ -52,7 +92,25 @@ public class Movie implements Serializable {
                 ", posterUrl='" + posterUrl + '\'' +
                 ", plot='" + plot + '\'' +
                 ", rating=" + rating +
+                ", popularity=" + popularity +
                 ", releaseDate=" + releaseDate +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Movie movie = (Movie) o;
+
+        return id.equals(movie.id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }
+

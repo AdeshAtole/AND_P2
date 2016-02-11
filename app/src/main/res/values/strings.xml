@@ -10,4 +10,5 @@
     <string name="preference_sort_by_default">popularity.desc</string>
     <string name="preference_sort_by_key">sortBy</string>
     <string name="title_activity_review">ReviewActivity</string>
+    <string name="no_movie_selected">NO MOVIE SELECTED</string>
 </resources>
